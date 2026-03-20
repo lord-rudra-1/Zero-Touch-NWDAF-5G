@@ -1,0 +1,11 @@
+{
+  "num_training_samples": 120,
+  "num_training_sequences": 111,
+  "sequence_length": 10,
+  "num_features": 6,
+  "epochs": 10,
+  "threshold": 0.08512629568576813,
+  "threshold_method": "percentile_95.0",
+  "mean_training_error": 0.06668872386217117,
+  "max_training_error": 0.09759817272424698
+}

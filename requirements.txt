@@ -4,7 +4,5 @@ scikit-learn
 torch
 matplotlib
 seaborn
-streamlit
-plotly
-
-hello check
+requests
+pyyaml

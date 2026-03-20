@@ -4,4 +4,6 @@ __pycache__/
 .env
 models/*.pth
 results/
-.streamlit/
+config/
+*.pcapng
+*.pcap
