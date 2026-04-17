@@ -77,7 +77,7 @@ def block_subscriber(
     url = f"{cfg.api_base_url}/subscribers/{imsi}/block"
 
     try:
-        resp = requests.post(url, headers=cfg.auth_headers, timeout=5)
+        resp = requests.post(url, headers=cfg.auth_headers, timeout=5, **cfg.requests_kwargs)
         success = resp.status_code in (200, 201, 204)
         _log_action("BLOCK", imsi, success,
                      f"HTTP {resp.status_code}")
@@ -119,7 +119,7 @@ def throttle_subscriber(
 
     try:
         resp = requests.post(
-            url, json=payload, headers=cfg.auth_headers, timeout=5
+            url, json=payload, headers=cfg.auth_headers, timeout=5, **cfg.requests_kwargs
         )
         success = resp.status_code in (200, 201, 204)
         _log_action("THROTTLE", imsi, success,
@@ -143,7 +143,7 @@ def unblock_subscriber(
     url = f"{cfg.api_base_url}/subscribers/{imsi}/unblock"
 
     try:
-        resp = requests.post(url, headers=cfg.auth_headers, timeout=5)
+        resp = requests.post(url, headers=cfg.auth_headers, timeout=5, **cfg.requests_kwargs)
         success = resp.status_code in (200, 201, 204)
         _log_action("UNBLOCK", imsi, success,
                      f"HTTP {resp.status_code}")

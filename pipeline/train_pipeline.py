@@ -31,6 +31,8 @@ def run_training_pipeline(
     batch_size: int = 32,
     learning_rate: float = 1e-3,
     threshold_percentile: float = 95.0,
+    threshold_method: str = "statistical",  # "statistical" (mean+3σ) or "percentile"
+    threshold_k: float = 3.0,               # σ multiplier for statistical method
     simulated_duration: float = 300.0,
     model_filename: str = "lstm_autoencoder.pth",
 ) -> Tuple[Path, float, dict]:
@@ -78,11 +80,12 @@ def run_training_pipeline(
         df_normal = pd.read_csv(normal_telemetry_csv)
     else:
         print(f"\n[pipeline] Generating simulated normal telemetry "
-              f"({simulated_duration}s)")
+              f"({simulated_duration}s, all-normal, parametric sine-wave model)")
         df_normal = generate_simulated_telemetry(
             duration_seconds=simulated_duration,
             poll_interval=1.0,
-            attack_start_frac=1.0,  # 100% normal data
+            attack_start_frac=1.0,   # 100% normal data (no clones injected)
+            ue_clone_count_during_attack=0,  # explicitly zero
         )
 
     print(f"[pipeline] Normal telemetry samples: {len(df_normal)}")
@@ -118,13 +121,25 @@ def run_training_pipeline(
           f"std: {errors.std():.6f}, max: {errors.max():.6f}")
 
     # ------------------------------------------------------------------
-    # 5. Compute threshold
+    # 5. Compute threshold  (statistical: mean + k*σ is preferred because
+    #    it adapts to actual error spread rather than hard percentile cut)
     # ------------------------------------------------------------------
     threshold = select_threshold(
         errors,
-        method="percentile",
+        method=threshold_method,
         percentile=threshold_percentile,
+        k=threshold_k,
     )
+
+    # Safety floor: threshold must always sit above the max normal error
+    # to guarantee zero false positives on training distribution.
+    safety_floor = float(errors.max()) * 1.10   # 10% headroom
+    if threshold < safety_floor:
+        print(f"[pipeline] ⚠  Threshold {threshold:.6f} is below safety floor "
+              f"{safety_floor:.6f} — raising to floor.")
+        threshold = safety_floor
+    print(f"[pipeline] Final threshold: {threshold:.6f}  "
+          f"(normal max: {errors.max():.6f}, ratio: {threshold/max(errors.max(),1e-9):.2f}x)")
 
     # ------------------------------------------------------------------
     # 6. Save model + metadata
@@ -141,8 +156,11 @@ def run_training_pipeline(
         "num_features": int(X_train.shape[2]),
         "epochs": epochs,
         "threshold": float(threshold),
-        "threshold_method": f"percentile_{threshold_percentile}",
+        "threshold_method": threshold_method,
+        "threshold_k": threshold_k if threshold_method == "statistical" else None,
+        "threshold_percentile": threshold_percentile if threshold_method == "percentile" else None,
         "mean_training_error": float(errors.mean()),
+        "std_training_error": float(errors.std()),
         "max_training_error": float(errors.max()),
     }
     with meta_path.open("w") as f:

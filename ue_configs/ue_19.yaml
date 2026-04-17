@@ -1,0 +1,48 @@
+amf: '8000'
+ciphering:
+  EA1: true
+  EA2: true
+  EA3: true
+configured-nssai:
+- sd: '010203'
+  sst: 1
+default-nssai:
+- sd: '010203'
+  sst: 1
+gnbSearchList:
+- 192.168.71.130
+homeNetworkPublicKey: 5a8d38864820197c3394b92613b20b91633cbd897119273bf8e4a6f4eec0a650
+homeNetworkPublicKeyId: 1
+imei: '356938035643819'
+integrity:
+  IA1: true
+  IA2: true
+  IA3: true
+integrityMaxRate:
+  downlink: full
+  uplink: full
+key: 465B5CE8B199B49FAA5F0A2EE238A6BC
+mcc: '001'
+mnc: '01'
+op: E8ED289DEBA952E4283B54E88E6183CA
+opType: OPC
+protectionScheme: 0
+routingIndicator: '0000'
+sessions:
+- apn: internet
+  slice:
+    sd: '010203'
+    sst: 1
+  type: IPv4
+supi: imsi-001010000000019
+tunNetmask: 255.255.255.0
+uacAcc:
+  class11: false
+  class12: false
+  class13: false
+  class14: false
+  class15: false
+  normalClass: 0
+uacAic:
+  mcs: false
+  mps: false

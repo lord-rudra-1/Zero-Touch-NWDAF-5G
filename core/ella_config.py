@@ -28,8 +28,14 @@ DEFAULT_TAC = 1          # Tracking Area Code
 # Ella Core network addresses
 # ---------------------------------------------------------------------------
 DEFAULT_ELLA_HOST = os.getenv("ELLA_HOST", "127.0.0.1")
-DEFAULT_ELLA_API_PORT = int(os.getenv("ELLA_API_PORT", "9090"))
-DEFAULT_ELLA_METRICS_PORT = int(os.getenv("ELLA_METRICS_PORT", "9090"))
+# Snap-based Ella Core commonly exposes API on 5002 by default.
+# Allow overrides through env vars for custom deployments.
+DEFAULT_ELLA_API_PORT = int(os.getenv("ELLA_API_PORT", "5002"))
+DEFAULT_ELLA_METRICS_PORT = int(os.getenv("ELLA_METRICS_PORT", str(DEFAULT_ELLA_API_PORT)))
+DEFAULT_ELLA_SCHEME = os.getenv("ELLA_SCHEME", "https")
+DEFAULT_ELLA_VERIFY_TLS = os.getenv("ELLA_VERIFY_TLS", "false").lower() in {
+    "1", "true", "yes", "on"
+}
 
 # ---------------------------------------------------------------------------
 # Authentication
@@ -64,6 +70,8 @@ class EllaConfig:
     host: str = DEFAULT_ELLA_HOST
     api_port: int = DEFAULT_ELLA_API_PORT
     metrics_port: int = DEFAULT_ELLA_METRICS_PORT
+    scheme: str = DEFAULT_ELLA_SCHEME
+    verify_tls: bool = DEFAULT_ELLA_VERIFY_TLS
 
     # Auth
     api_token: str = DEFAULT_ELLA_API_TOKEN
@@ -85,12 +93,19 @@ class EllaConfig:
     @property
     def api_base_url(self) -> str:
         """Base URL for the Ella Core REST API."""
-        return f"http://{self.host}:{self.api_port}/api/v1"
+        return f"{self.scheme}://{self.host}:{self.api_port}/api/v1"
 
     @property
     def metrics_url(self) -> str:
         """Prometheus-compatible /metrics endpoint."""
-        return f"http://{self.host}:{self.metrics_port}/metrics"
+        return f"{self.scheme}://{self.host}:{self.metrics_port}/metrics"
+
+    @property
+    def requests_kwargs(self) -> Dict[str, bool]:
+        """
+        Common requests options.
+        """
+        return {"verify": self.verify_tls}
 
     @property
     def auth_headers(self) -> Dict[str, str]:

@@ -47,7 +47,9 @@ def extract_features(
             f"None of the expected feature columns found in DataFrame. "
             f"Expected: {cols}, Got: {list(df.columns)}"
         )
-    return df[available].values.astype(np.float32)
+    # Extract rates (derivatives) rather than cumulative counters
+    df_diff = df[available].diff().fillna(0)
+    return df_diff.values.astype(np.float32)
 
 
 def normalise_features(

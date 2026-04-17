@@ -144,6 +144,7 @@ def cmd_full(args: argparse.Namespace) -> None:
     print("─" * 60)
     run_live_monitor(
         poll_interval=args.interval,
+        max_iterations=args.iterations,
         auto_mitigate=not args.no_mitigate,
     )
 

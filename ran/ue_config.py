@@ -83,17 +83,23 @@ def generate_ue_config(
         "supi": supi,
         "mcc": _mcc,
         "mnc": _mnc,
+        "protectionScheme": 0,
+        "homeNetworkPublicKey": "5a8d38864820197c3394b92613b20b91633cbd897119273bf8e4a6f4eec0a650",
+        "homeNetworkPublicKeyId": 1,
+        "routingIndicator": "0000",
 
         # Security
         "key": _key,
-        "op": None,        # Use OPc, not OP
+        # UERANSIM expects `op` even when opType is OPC.
+        # So store OPc value in `op` and mark the type accordingly.
+        "op": _opc,
         "opType": "OPC",
-        "opc": _opc,
         "amf": "8000",     # Authentication Management Field
 
         # IMEI
         "imei": "356938035643803",
         "imeiSv": "4370816125816151",
+        "tunNetmask": "255.255.255.0",
 
         # gNB search list
         "gnbSearchList": gnb_search_list or [gnb_ip],
@@ -125,6 +131,17 @@ def generate_ue_config(
                 "sd": _sd,
             }
         ],
+
+        # UAC fields required by recent UERANSIM versions
+        "uacAic": {"mps": False, "mcs": False},
+        "uacAcc": {
+            "normalClass": 0,
+            "class11": False,
+            "class12": False,
+            "class13": False,
+            "class14": False,
+            "class15": False,
+        },
 
         # UAC Access Identities / Control Class
         "integrity": {"IA1": True, "IA2": True, "IA3": True},
@@ -187,13 +204,11 @@ def start_ue(
     else:
         binary = Path("nr-ue")
 
-    cmd = ["sudo", str(binary), "-c", str(config_path)]
+    cmd = [str(binary), "-c", str(config_path)]
     print(f"[ue_config] Starting UE: {' '.join(cmd)}")
 
     _ue_process = subprocess.Popen(
-        cmd,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
+        cmd
     )
     print(f"[ue_config] UE started (PID {_ue_process.pid})")
     return _ue_process

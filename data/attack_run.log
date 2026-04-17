@@ -1,0 +1,13 @@
+[collector] Cleaned up 5 stale nr-ue process(es).
+[attack] Pre-run cleanup: killed 5 stale process(es).
+[attack] Launching signaling storm: 25 clones, 10.0s burst
+[attack] ==================================================
+[attack] Phase 1 (Probe): Spawning 5 UEs
+[attack] Phase 2 (Surge): Sudden massive blocks
+[attack] Slammed core with sudden 10 UE registrations!
+[attack] Slammed core with sudden 20 UE registrations!
+[attack] Slammed core with sudden 20 UE registrations!
+[attack] Phase 3 (Slam): Rapid Kill-Spawn cycles
+[attack] ==================================================
+[attack] Storm complete — 18 events over 10.0s
+Total events: 18

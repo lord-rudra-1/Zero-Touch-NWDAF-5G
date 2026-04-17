@@ -1,11 +1,14 @@
 {
-  "num_training_samples": 120,
-  "num_training_sequences": 111,
+  "num_training_samples": 300,
+  "num_training_sequences": 291,
   "sequence_length": 10,
   "num_features": 6,
-  "epochs": 10,
-  "threshold": 0.08512629568576813,
-  "threshold_method": "percentile_95.0",
-  "mean_training_error": 0.06668872386217117,
-  "max_training_error": 0.09759817272424698
+  "epochs": 50,
+  "threshold": 0.06018261536955834,
+  "threshold_method": "statistical",
+  "threshold_k": 3.0,
+  "threshold_percentile": null,
+  "mean_training_error": 0.023346662521362305,
+  "std_training_error": 0.008337978273630142,
+  "max_training_error": 0.054711468517780304
 }

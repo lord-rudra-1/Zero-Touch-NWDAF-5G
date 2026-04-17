@@ -13,6 +13,7 @@ Checks performed:
 from __future__ import annotations
 
 import sys
+from pathlib import Path
 from typing import Optional
 
 import requests
@@ -29,7 +30,7 @@ def check_core_health(config: Optional[EllaConfig] = None) -> bool:
     cfg = config or get_config()
     url = cfg.api_base_url
     try:
-        resp = requests.get(url, headers=cfg.auth_headers, timeout=5)
+        resp = requests.get(url, headers=cfg.auth_headers, timeout=5, **cfg.requests_kwargs)
         ok = resp.status_code < 500
         status = "✓" if ok else f"✗ (HTTP {resp.status_code})"
         print(f"[check] Ella Core API ({url}): {status}")
@@ -47,7 +48,7 @@ def check_metrics_endpoint(config: Optional[EllaConfig] = None) -> bool:
     cfg = config or get_config()
     url = cfg.metrics_url
     try:
-        resp = requests.get(url, timeout=5)
+        resp = requests.get(url, timeout=5, **cfg.requests_kwargs)
         if resp.status_code == 200 and len(resp.text) > 0:
             # Count the number of metric lines (lines not starting with '#')
             metric_lines = [
@@ -67,6 +68,24 @@ def check_metrics_endpoint(config: Optional[EllaConfig] = None) -> bool:
         return False
 
 
+def _snap_telemetry_hint() -> Optional[str]:
+    """
+    Best-effort hint for Snap-based Ella Core deployments.
+    """
+    snap_cfg = Path("/var/snap/ella-core/common/core.yaml")
+    try:
+        text = snap_cfg.read_text(encoding="utf-8")
+    except Exception:
+        return None
+
+    if "telemetry:\n  enabled: false" in text:
+        return (
+            "Ella Core telemetry appears disabled in /var/snap/ella-core/common/core.yaml "
+            "(set telemetry.enabled: true, then restart snap service)."
+        )
+    return None
+
+
 def check_subscriber_registered(
     imsi: Optional[str] = None,
     config: Optional[EllaConfig] = None,
@@ -76,9 +95,12 @@ def check_subscriber_registered(
     imsi = imsi or cfg.subscriber_imsi
     url = f"{cfg.api_base_url}/subscribers/{imsi}"
     try:
-        resp = requests.get(url, headers=cfg.auth_headers, timeout=5)
+        resp = requests.get(url, headers=cfg.auth_headers, timeout=5, **cfg.requests_kwargs)
         if resp.status_code == 200:
             print(f"[check] Subscriber {imsi}: ✓ (registered)")
+            return True
+        elif resp.status_code == 401:
+            print(f"[check] Subscriber {imsi}: ✓ (API reachable, auth required)")
             return True
         elif resp.status_code == 404:
             print(f"[check] Subscriber {imsi}: ✗ (not found)")
@@ -128,6 +150,14 @@ def run_full_check(config: Optional[EllaConfig] = None) -> bool:
     else:
         failed = [n for n, p in results.items() if not p]
         print(f"Overall: {len(failed)} CHECK(S) FAILED ✗")
+        print()
+        print("[hint] Quick troubleshooting:")
+        print("  - Ensure Ella Core service is running (snap services ella-core).")
+        print(f"  - Current configured API URL: {cfg.api_base_url}")
+        print(f"  - Current configured metrics URL: {cfg.metrics_url}")
+        hint = _snap_telemetry_hint()
+        if hint and not results.get("Metrics endpoint", False):
+            print(f"  - {hint}")
 
     return all_ok
 

@@ -169,7 +169,7 @@ def wait_for_ready(
 
     while time.time() < deadline:
         try:
-            resp = requests.get(url, timeout=3)
+            resp = requests.get(url, timeout=3, **cfg.requests_kwargs)
             if resp.status_code == 200:
                 print("[ella_setup] Ella Core is healthy ✓")
                 return True
@@ -223,7 +223,9 @@ def create_subscriber(
     }
 
     print(f"[ella_setup] Creating subscriber {imsi} via POST {url}")
-    resp = requests.post(url, json=payload, headers=cfg.auth_headers, timeout=10)
+    resp = requests.post(
+        url, json=payload, headers=cfg.auth_headers, timeout=10, **cfg.requests_kwargs
+    )
 
     if resp.status_code in (200, 201):
         print(f"[ella_setup] Subscriber {imsi} created successfully ✓")

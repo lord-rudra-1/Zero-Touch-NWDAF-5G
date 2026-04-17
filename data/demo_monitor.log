@@ -1,0 +1,62 @@
+/home/codehasira23/AI IN %G/ai-in-5g-project/.venv/lib/python3.10/site-packages/urllib3/connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host '127.0.0.1'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+/home/codehasira23/AI IN %G/ai-in-5g-project/.venv/lib/python3.10/site-packages/urllib3/connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host '127.0.0.1'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+
+==============================================================
+ NWDAF Live Monitor — Zero‑Touch Detection (v2)
+==============================================================
+ Model            : lstm_autoencoder.pth
+ Base threshold   : 0.060532
+ Train error mean : 0.029615 ± 0.007876
+ Seq length       : 10
+ Features (6)    : ['app_ngap_messages_total', 'app_nas_messages_total', 'app_active_sessions', 'app_registration_requests_total', 'app_auth_failures_total', 'app_request_latency_seconds']
+ Streak required  : 3 consecutive windows
+ Cooldown         : 5.0s after mitigation
+ Mitigation       : AUTO
+==============================================================
+
+        Time       Error   Threshold    RollAvg  Streak  Status
+--------------------------------------------------------------------------------
+    01:47:26   buffering           —          —       —  (1/10 samples)
+    01:47:27   buffering           —          —       —  (2/10 samples)
+    01:47:28   buffering           —          —       —  (3/10 samples)
+    01:47:29   buffering           —          —       —  (4/10 samples)
+    01:47:30   buffering           —          —       —  (5/10 samples)
+    01:47:31   buffering           —          —       —  (6/10 samples)
+    01:47:32   buffering           —          —       —  (7/10 samples)
+    01:47:33   buffering           —          —       —  (8/10 samples)
+    01:47:34   buffering           —          —       —  (9/10 samples)
+    01:47:35    0.173649    0.060532   0.173649     1/3     Normal   
+    01:47:36    0.160760    0.060532   0.160760     2/3     Normal   
+[mitigation] ✓ BLOCK — IMSI: imsi-001010000000001  HTTP 200
+    01:47:37    0.155343    0.060532   0.155343     3/3  ⚠  ANOMALY  → BLOCKED imsi-001010000000001
+    01:47:38    0.140219    0.060532   0.140219     4/3  ⚠  ANOMALY  [cooldown 4.0s]
+    01:47:39    0.141094    0.060532   0.141094     5/3  ⚠  ANOMALY  [cooldown 3.0s]
+    01:47:40    0.144881    0.060532   0.144881     6/3  ⚠  ANOMALY  [cooldown 2.0s]
+    01:47:41    0.151130    0.060532   0.151130     7/3  ⚠  ANOMALY  [cooldown 1.0s]
+    01:47:42    0.143629    0.060532   0.143629     8/3  ⚠  ANOMALY  [cooldown 0.0s]
+[mitigation] ✓ BLOCK — IMSI: imsi-001010000000001  HTTP 200
+    01:47:43    0.145886    0.060532   0.145886     9/3  ⚠  ANOMALY  → BLOCKED imsi-001010000000001
+    01:47:44    0.151271    0.180165   0.150786     0/3     Normal   
+    01:47:45    0.150389    0.178763   0.150750     0/3     Normal   
+    01:47:46    0.145315    0.177494   0.150297     0/3     Normal   
+    01:47:47    0.144919    0.176364   0.149883     0/3     Normal   
+    01:47:48    0.140262    0.175775   0.149196     0/3     Normal   
+    01:47:49    0.132670    0.176595   0.148094     0/3     Normal   
+    01:47:50    0.126082    0.178609   0.146719     0/3     Normal   
+    01:47:51    0.121929    0.180805   0.145260     0/3     Normal   
+    01:47:52    0.119722    0.182587   0.143842     0/3     Normal   
+    01:47:53    0.113747    0.185020   0.142258     0/3     Normal   
+    01:47:54    0.102371    0.189430   0.140263     0/3     Normal   
+    01:47:55    0.102331    0.192211   0.138457     0/3     Normal   
+
+==============================================================
+ Detection Summary
+==============================================================
+ Total windows analysed : 21
+ Anomalies confirmed    : 7
+ Anomaly rate           : 33.3%
+ Final rolling error    : 0.138457 ± 0.017918
+[mitigation] Saved 2 actions to results/mitigation_log.json
+==============================================================

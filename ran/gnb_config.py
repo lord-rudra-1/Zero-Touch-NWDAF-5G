@@ -158,13 +158,11 @@ def start_gnb(
     else:
         binary = Path("nr-gnb")
 
-    cmd = ["sudo", str(binary), "-c", str(config_path)]
+    cmd = [str(binary), "-c", str(config_path)]
     print(f"[gnb_config] Starting gNB: {' '.join(cmd)}")
 
     _gnb_process = subprocess.Popen(
-        cmd,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
+        cmd
     )
     print(f"[gnb_config] gNB started (PID {_gnb_process.pid})")
     return _gnb_process
