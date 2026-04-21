@@ -3,7 +3,7 @@ import sys
 
 # Constants
 TOKEN = "ellacore_MzR9YhsEKcBt_n84hgUW6As00rak1XlPb55dS"
-BASE_URL = "https://127.0.0.1:5002/api/v1"
+BASE_URL = "http://127.0.0.1:5002/api/v1"
 SUBSCRIBER_PREFIX = "0010100000000"  # We will append 01-25
 
 # Standard security profile from ella_config.py

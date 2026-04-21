@@ -1,0 +1,135 @@
+
+============================================================
+ NWDAF — Zero‑Touch Anomaly Detection Demo
+============================================================
+
+────────────────────────────────────────────────────────────
+ PHASE 3: Training LSTM‑Autoencoder
+────────────────────────────────────────────────────────────
+
+[pipeline] Generating simulated normal telemetry (300.0s, all-normal, parametric sine-wave model)
+[collector] Generated 300 simulated samples (attack starts at sample 300, clone_count=0)
+[pipeline] Normal telemetry samples: 300
+
+[pipeline] Preprocessing (seq_len=10)...
+[pipeline] Training sequences: (291, 10, 6)
+
+[pipeline] Training LSTM‑Autoencoder (epochs=50, bs=32, lr=0.001)
+[train] Using device: cpu
+[train] Training sequences shape: (291, 10, 6)
+[train] Epoch 1/50 — Loss: 0.166089
+[train] Epoch 2/50 — Loss: 0.083160
+[train] Epoch 3/50 — Loss: 0.050638
+[train] Epoch 4/50 — Loss: 0.042801
+[train] Epoch 5/50 — Loss: 0.036530
+[train] Epoch 6/50 — Loss: 0.032234
+[train] Epoch 7/50 — Loss: 0.028336
+[train] Epoch 8/50 — Loss: 0.025962
+[train] Epoch 9/50 — Loss: 0.024658
+[train] Epoch 10/50 — Loss: 0.024048
+[train] Epoch 11/50 — Loss: 0.023649
+[train] Epoch 12/50 — Loss: 0.023489
+[train] Epoch 13/50 — Loss: 0.023440
+[train] Epoch 14/50 — Loss: 0.023391
+[train] Epoch 15/50 — Loss: 0.023365
+[train] Epoch 16/50 — Loss: 0.023357
+[train] Epoch 17/50 — Loss: 0.023366
+[train] Epoch 18/50 — Loss: 0.023346
+[train] Epoch 19/50 — Loss: 0.023420
+[train] Epoch 20/50 — Loss: 0.023384
+[train] Epoch 21/50 — Loss: 0.023354
+[train] Epoch 22/50 — Loss: 0.023347
+[train] Epoch 23/50 — Loss: 0.023364
+[train] Epoch 24/50 — Loss: 0.023343
+[train] Epoch 25/50 — Loss: 0.023328
+[train] Epoch 26/50 — Loss: 0.023350
+[train] Epoch 27/50 — Loss: 0.023327
+[train] Epoch 28/50 — Loss: 0.023421
+[train] Epoch 29/50 — Loss: 0.023332
+[train] Epoch 30/50 — Loss: 0.023323
+[train] Epoch 31/50 — Loss: 0.023344
+[train] Epoch 32/50 — Loss: 0.023391
+[train] Epoch 33/50 — Loss: 0.023341
+[train] Epoch 34/50 — Loss: 0.023353
+[train] Epoch 35/50 — Loss: 0.023335
+[train] Epoch 36/50 — Loss: 0.023356
+[train] Epoch 37/50 — Loss: 0.023363
+[train] Epoch 38/50 — Loss: 0.023328
+[train] Epoch 39/50 — Loss: 0.023372
+[train] Epoch 40/50 — Loss: 0.023338
+[train] Epoch 41/50 — Loss: 0.023328
+[train] Epoch 42/50 — Loss: 0.023321
+[train] Epoch 43/50 — Loss: 0.023342
+[train] Epoch 44/50 — Loss: 0.023422
+[train] Epoch 45/50 — Loss: 0.023363
+[train] Epoch 46/50 — Loss: 0.023331
+[train] Epoch 47/50 — Loss: 0.023342
+[train] Epoch 48/50 — Loss: 0.023334
+[train] Epoch 49/50 — Loss: 0.023319
+[train] Epoch 50/50 — Loss: 0.023332
+
+[pipeline] Computing reconstruction errors on training data...
+[pipeline] Errors — mean: 0.023330, std: 0.008349, max: 0.055040
+[Threshold] Statistical method: mean = 0.023330, std = 0.008349, k = 3.0 -> threshold = 0.048376
+[pipeline] ⚠  Threshold 0.048376 is below safety floor 0.060544 — raising to floor.
+[pipeline] Final threshold: 0.060544  (normal max: 0.055040, ratio: 1.10x)
+[train] Saved trained model to: /home/codehasira23/ai-in-5g-project/models/lstm_autoencoder.pth
+[pipeline] Saved training metadata to /home/codehasira23/ai-in-5g-project/models/training_metadata.json
+[pipeline] Saved scaler params to /home/codehasira23/ai-in-5g-project/models/scaler_params.json
+
+[pipeline] ✓ Training complete
+[pipeline]   Model     : /home/codehasira23/ai-in-5g-project/models/lstm_autoencoder.pth
+[pipeline]   Threshold : 0.060544
+
+────────────────────────────────────────────────────────────
+ PHASE 4: Anomaly Detection on Simulated Attack
+────────────────────────────────────────────────────────────
+
+[sim-monitor] Generating normal test data (parametric sine-wave)...
+[collector] Generated 200 simulated samples (attack starts at sample 200, clone_count=0)
+[sim-monitor] Generating attack test data (parametric + clone surge)...
+[collector] Generated 100 simulated samples (attack starts at sample 0, clone_count=20)
+Anomaly Detection Metrics
+------------------------
+Precision : 1.0000
+Recall    : 1.0000
+F1 Score  : 1.0000
+
+Confusion Matrix (binary)
+TP (anomaly correctly detected)   : 91
+FP (normal incorrectly detected)  : 0
+FN (missed anomaly)               : 0
+TN (normal correctly ignored)     : 191
+
+==============================================================
+ Simulated Detection Results
+==============================================================
+ Normal sequences  : 191
+ Attack sequences  : 91
+ Saved threshold   : 0.060544
+ Normal mean error : 0.025012 (max: 0.055040)
+ Attack mean error : 6776.969727 (max: 15432.666016)
+ Separation ratio  : 270946.2x
+ Precision         : 1.0000
+ Recall            : 1.0000
+ F1 Score          : 1.0000
+==============================================================
+Saved plot to /home/codehasira23/ai-in-5g-project/results_screenshots/error_distribution.png
+Saved plot to /home/codehasira23/ai-in-5g-project/results_screenshots/error_over_time.png
+
+============================================================
+ Demo Complete — Results Summary
+============================================================
+  threshold                 : 0.0605
+  normal_mean_error         : 0.0250
+  normal_max_error          : 0.0550
+  attack_mean_error         : 6776.9697
+  separation_ratio          : 270946.1875
+  precision                 : 1.0000
+  recall                    : 1.0000
+  f1_score                  : 1.0000
+  tp                        : 91.0000
+  fp                        : 0.0000
+  fn                        : 0.0000
+  tn                        : 191.0000
+============================================================

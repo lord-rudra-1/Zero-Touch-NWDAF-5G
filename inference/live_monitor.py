@@ -326,6 +326,7 @@ def run_simulated_monitor(
     from telemetry.preprocessor import preprocess_telemetry
     from evaluation.metrics import compute_metrics
     from evaluation.threshold import select_threshold
+    from visualization.error_plot import plot_reconstruction_error_over_time, plot_reconstruction_error_distribution
 
     project_root = Path(__file__).resolve().parents[1]
     if model_path is None:
@@ -405,6 +406,26 @@ def run_simulated_monitor(
     print(f" Recall            : {metrics['recall']:.4f}")
     print(f" F1 Score          : {metrics['f1_score']:.4f}")
     print(f"{'='*62}")
+
+    # Generate and save plots
+    results_dir = project_root / "results_screenshots"
+    results_dir.mkdir(exist_ok=True)
+    
+    plot_reconstruction_error_distribution(
+        errors_all,
+        threshold=threshold,
+        title="Reconstruction Error Distribution (Simulated)",
+        save_path=str(results_dir / "error_distribution.png")
+    )
+
+    plot_reconstruction_error_over_time(
+        errors_all,
+        threshold=threshold,
+        title="Reconstruction Error Over Time (Simulated Attack)",
+        time_label="Sequence Index",
+        save_path=str(results_dir / "error_over_time.png")
+    )
+
 
     return {
         "threshold": threshold,

@@ -9,6 +9,7 @@ def plot_reconstruction_error_distribution(
     threshold: Optional[float] = None,
     bins: int = 60,
     title: str = "Distribution of Reconstruction Errors",
+    save_path: Optional[str] = None,
 ) -> None:
     """
     Plot the distribution of reconstruction errors for anomaly detection.
@@ -36,7 +37,12 @@ def plot_reconstruction_error_distribution(
 
     plt.grid(alpha=0.3, linestyle="--")
     plt.tight_layout()
-    plt.show()
+    if save_path:
+        plt.savefig(save_path)
+        print(f"Saved plot to {save_path}")
+    else:
+        plt.show()
+    plt.close()
 
 
 def plot_reconstruction_error_over_time(
@@ -44,6 +50,7 @@ def plot_reconstruction_error_over_time(
     threshold: Optional[float] = None,
     title: str = "Reconstruction Error Over Time",
     time_label: str = "Time Index",
+    save_path: Optional[str] = None,
 ) -> None:
     """
     Plot reconstruction error as a function of time and mark anomalies.
@@ -86,7 +93,12 @@ def plot_reconstruction_error_over_time(
     plt.grid(alpha=0.3, linestyle="--")
     plt.legend(fontsize=10)
     plt.tight_layout()
-    plt.show()
+    if save_path:
+        plt.savefig(save_path)
+        print(f"Saved plot to {save_path}")
+    else:
+        plt.show()
+    plt.close()
 
 
 if __name__ == "__main__":

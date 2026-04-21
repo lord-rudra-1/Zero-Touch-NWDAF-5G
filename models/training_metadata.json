@@ -4,11 +4,11 @@
   "sequence_length": 10,
   "num_features": 6,
   "epochs": 50,
-  "threshold": 0.06018261536955834,
+  "threshold": 0.060544084012508395,
   "threshold_method": "statistical",
   "threshold_k": 3.0,
   "threshold_percentile": null,
-  "mean_training_error": 0.023346662521362305,
-  "std_training_error": 0.008337978273630142,
-  "max_training_error": 0.054711468517780304
+  "mean_training_error": 0.023330075666308403,
+  "std_training_error": 0.008348781615495682,
+  "max_training_error": 0.05504007637500763
 }
