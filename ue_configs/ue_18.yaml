@@ -4,10 +4,10 @@ ciphering:
   EA2: true
   EA3: true
 configured-nssai:
-- sd: '010203'
+- sd: '000000'
   sst: 1
 default-nssai:
-- sd: '010203'
+- sd: '000000'
   sst: 1
 gnbSearchList:
 - 192.168.71.130
@@ -31,7 +31,7 @@ routingIndicator: '0000'
 sessions:
 - apn: internet
   slice:
-    sd: '010203'
+    sd: '000000'
     sst: 1
   type: IPv4
 supi: imsi-001010000000018

@@ -1,2 +1,132 @@
-sudo: a terminal is required to read the password; either use the -S option to read from standard input or configure an askpass helper
-sudo: a password is required
+UERANSIM v3.2.8
+[2026-04-22 10:21:20.391] [sctp] [info] Trying to establish SCTP connection... (192.168.71.130:38412)
+[2026-04-22 10:21:20.401] [sctp] [info] SCTP connection established (192.168.71.130:38412)
+[2026-04-22 10:21:20.402] [sctp] [debug] SCTP association setup ascId[327]
+[2026-04-22 10:21:20.403] [ngap] [debug] Sending NG Setup Request
+[2026-04-22 10:21:20.470] [ngap] [debug] NG Setup Response received
+[2026-04-22 10:21:20.473] [ngap] [info] NG Setup procedure is successful
+[2026-04-22 10:21:48.104] [rrc] [debug] UE[1] new signal detected
+[2026-04-22 10:21:48.504] [rrc] [debug] UE[2] new signal detected
+[2026-04-22 10:21:48.525] [rrc] [info] RRC Setup for UE[2]
+[2026-04-22 10:21:48.534] [ngap] [debug] Initial NAS message received from UE[2]
+[2026-04-22 10:21:48.611] [ngap] [debug] Initial Context Setup Request received
+[2026-04-22 10:21:48.880] [ngap] [info] PDU session resource(s) setup for UE[2] count[1]
+[2026-04-22 10:21:49.037] [rrc] [debug] UE[3] new signal detected
+[2026-04-22 10:21:49.042] [rrc] [info] RRC Setup for UE[3]
+[2026-04-22 10:21:49.042] [ngap] [debug] Initial NAS message received from UE[3]
+[2026-04-22 10:21:49.111] [ngap] [debug] Initial Context Setup Request received
+[2026-04-22 10:21:49.323] [ngap] [info] PDU session resource(s) setup for UE[3] count[1]
+[2026-04-22 10:21:49.538] [rrc] [debug] UE[4] new signal detected
+[2026-04-22 10:21:49.540] [rrc] [info] RRC Setup for UE[4]
+[2026-04-22 10:21:49.542] [ngap] [debug] Initial NAS message received from UE[4]
+[2026-04-22 10:21:49.557] [ngap] [debug] Initial Context Setup Request received
+[2026-04-22 10:21:49.800] [ngap] [info] PDU session resource(s) setup for UE[4] count[1]
+[2026-04-22 10:21:50.044] [rrc] [debug] UE[5] new signal detected
+[2026-04-22 10:21:50.045] [rrc] [info] RRC Setup for UE[5]
+[2026-04-22 10:21:50.046] [ngap] [debug] Initial NAS message received from UE[5]
+[2026-04-22 10:21:50.059] [ngap] [debug] Initial Context Setup Request received
+[2026-04-22 10:21:50.289] [ngap] [info] PDU session resource(s) setup for UE[5] count[1]
+[2026-04-22 10:21:50.555] [rrc] [debug] UE[6] new signal detected
+[2026-04-22 10:21:50.600] [rrc] [info] RRC Setup for UE[1]
+[2026-04-22 10:21:50.600] [ngap] [debug] Initial NAS message received from UE[1]
+[2026-04-22 10:21:50.615] [ngap] [debug] Initial Context Setup Request received
+[2026-04-22 10:21:50.831] [ngap] [info] PDU session resource(s) setup for UE[1] count[1]
+[2026-04-22 10:21:51.056] [rrc] [debug] UE[7] new signal detected
+[2026-04-22 10:21:51.058] [rrc] [info] RRC Setup for UE[6]
+[2026-04-22 10:21:51.059] [ngap] [debug] Initial NAS message received from UE[6]
+[2026-04-22 10:21:51.061] [rrc] [info] RRC Setup for UE[7]
+[2026-04-22 10:21:51.062] [ngap] [debug] Initial NAS message received from UE[7]
+[2026-04-22 10:21:51.083] [ngap] [debug] Initial Context Setup Request received
+[2026-04-22 10:21:51.091] [ngap] [debug] Initial Context Setup Request received
+[2026-04-22 10:21:51.100] [ngap] [info] PDU session resource(s) setup for UE[6] count[1]
+[2026-04-22 10:21:51.130] [ngap] [info] PDU session resource(s) setup for UE[7] count[1]
+[2026-04-22 10:21:51.562] [rrc] [debug] UE[8] new signal detected
+[2026-04-22 10:21:51.564] [rrc] [info] RRC Setup for UE[8]
+[2026-04-22 10:21:51.564] [ngap] [debug] Initial NAS message received from UE[8]
+[2026-04-22 10:21:51.575] [ngap] [debug] Initial Context Setup Request received
+[2026-04-22 10:21:51.790] [ngap] [info] PDU session resource(s) setup for UE[8] count[1]
+[2026-04-22 10:21:52.068] [rrc] [debug] UE[9] new signal detected
+[2026-04-22 10:21:52.576] [rrc] [debug] UE[10] new signal detected
+[2026-04-22 10:21:52.578] [rrc] [info] RRC Setup for UE[9]
+[2026-04-22 10:21:52.578] [rrc] [info] RRC Setup for UE[10]
+[2026-04-22 10:21:52.578] [ngap] [debug] Initial NAS message received from UE[9]
+[2026-04-22 10:21:52.580] [ngap] [debug] Initial NAS message received from UE[10]
+[2026-04-22 10:21:52.592] [ngap] [debug] Initial Context Setup Request received
+[2026-04-22 10:21:52.594] [ngap] [debug] Initial Context Setup Request received
+[2026-04-22 10:21:52.819] [ngap] [info] PDU session resource(s) setup for UE[9] count[1]
+[2026-04-22 10:21:52.820] [ngap] [info] PDU session resource(s) setup for UE[10] count[1]
+[2026-04-22 10:21:53.082] [rrc] [debug] UE[11] new signal detected
+[2026-04-22 10:21:53.086] [rrc] [info] RRC Setup for UE[11]
+[2026-04-22 10:21:53.089] [ngap] [debug] Initial NAS message received from UE[11]
+[2026-04-22 10:21:53.239] [ngap] [debug] Initial Context Setup Request received
+[2026-04-22 10:21:53.450] [ngap] [info] PDU session resource(s) setup for UE[11] count[1]
+[2026-04-22 10:21:53.580] [rrc] [debug] UE[12] new signal detected
+[2026-04-22 10:21:53.584] [rrc] [info] RRC Setup for UE[12]
+[2026-04-22 10:21:53.586] [ngap] [debug] Initial NAS message received from UE[12]
+[2026-04-22 10:21:53.672] [ngap] [debug] Initial Context Setup Request received
+[2026-04-22 10:21:53.888] [ngap] [info] PDU session resource(s) setup for UE[12] count[1]
+[2026-04-22 10:21:54.093] [rrc] [debug] UE[13] new signal detected
+[2026-04-22 10:21:54.095] [rrc] [info] RRC Setup for UE[13]
+[2026-04-22 10:21:54.102] [ngap] [debug] Initial NAS message received from UE[13]
+[2026-04-22 10:21:54.136] [ngap] [debug] Initial Context Setup Request received
+[2026-04-22 10:21:54.352] [ngap] [info] PDU session resource(s) setup for UE[13] count[1]
+[2026-04-22 10:21:54.595] [rrc] [debug] UE[14] new signal detected
+[2026-04-22 10:21:54.598] [rrc] [info] RRC Setup for UE[14]
+[2026-04-22 10:21:54.600] [ngap] [debug] Initial NAS message received from UE[14]
+[2026-04-22 10:21:54.616] [ngap] [debug] Initial Context Setup Request received
+[2026-04-22 10:21:54.859] [ngap] [info] PDU session resource(s) setup for UE[14] count[1]
+[2026-04-22 10:21:55.111] [rrc] [debug] UE[15] new signal detected
+[2026-04-22 10:21:55.114] [rrc] [info] RRC Setup for UE[15]
+[2026-04-22 10:21:55.116] [ngap] [debug] Initial NAS message received from UE[15]
+[2026-04-22 10:21:55.134] [ngap] [debug] Initial Context Setup Request received
+[2026-04-22 10:21:55.344] [ngap] [info] PDU session resource(s) setup for UE[15] count[1]
+[2026-04-22 10:21:55.619] [rrc] [debug] UE[16] new signal detected
+[2026-04-22 10:21:55.621] [rrc] [info] RRC Setup for UE[16]
+[2026-04-22 10:21:55.622] [ngap] [debug] Initial NAS message received from UE[16]
+[2026-04-22 10:21:55.629] [ngap] [debug] Initial Context Setup Request received
+[2026-04-22 10:21:55.845] [ngap] [info] PDU session resource(s) setup for UE[16] count[1]
+[2026-04-22 10:21:56.124] [rrc] [debug] UE[17] new signal detected
+[2026-04-22 10:21:56.125] [rrc] [info] RRC Setup for UE[17]
+[2026-04-22 10:21:56.126] [ngap] [debug] Initial NAS message received from UE[17]
+[2026-04-22 10:21:56.131] [ngap] [debug] Initial Context Setup Request received
+[2026-04-22 10:21:56.347] [ngap] [info] PDU session resource(s) setup for UE[17] count[1]
+[2026-04-22 10:21:56.636] [rrc] [debug] UE[18] new signal detected
+[2026-04-22 10:21:56.637] [rrc] [info] RRC Setup for UE[18]
+[2026-04-22 10:21:56.638] [ngap] [debug] Initial NAS message received from UE[18]
+[2026-04-22 10:21:56.643] [ngap] [debug] Initial Context Setup Request received
+[2026-04-22 10:21:56.855] [ngap] [info] PDU session resource(s) setup for UE[18] count[1]
+[2026-04-22 10:21:57.138] [rrc] [debug] UE[19] new signal detected
+[2026-04-22 10:21:57.141] [rrc] [info] RRC Setup for UE[19]
+[2026-04-22 10:21:57.142] [ngap] [debug] Initial NAS message received from UE[19]
+[2026-04-22 10:21:57.146] [ngap] [debug] Initial Context Setup Request received
+[2026-04-22 10:21:57.359] [ngap] [info] PDU session resource(s) setup for UE[19] count[1]
+[2026-04-22 10:21:57.644] [rrc] [debug] UE[20] new signal detected
+[2026-04-22 10:21:57.647] [rrc] [info] RRC Setup for UE[20]
+[2026-04-22 10:21:57.649] [ngap] [debug] Initial NAS message received from UE[20]
+[2026-04-22 10:21:57.653] [ngap] [debug] Initial Context Setup Request received
+[2026-04-22 10:21:57.866] [ngap] [info] PDU session resource(s) setup for UE[20] count[1]
+[2026-04-22 10:21:58.146] [rrc] [debug] UE[21] new signal detected
+[2026-04-22 10:21:58.150] [rrc] [info] RRC Setup for UE[21]
+[2026-04-22 10:21:58.150] [ngap] [debug] Initial NAS message received from UE[21]
+[2026-04-22 10:21:58.158] [ngap] [debug] Initial Context Setup Request received
+[2026-04-22 10:21:58.366] [ngap] [info] PDU session resource(s) setup for UE[21] count[1]
+[2026-04-22 10:21:58.652] [rrc] [debug] UE[22] new signal detected
+[2026-04-22 10:21:58.654] [rrc] [info] RRC Setup for UE[22]
+[2026-04-22 10:21:58.655] [ngap] [debug] Initial NAS message received from UE[22]
+[2026-04-22 10:21:58.670] [ngap] [debug] Initial Context Setup Request received
+[2026-04-22 10:21:58.877] [ngap] [info] PDU session resource(s) setup for UE[22] count[1]
+[2026-04-22 10:21:59.159] [rrc] [debug] UE[23] new signal detected
+[2026-04-22 10:21:59.162] [rrc] [info] RRC Setup for UE[23]
+[2026-04-22 10:21:59.162] [ngap] [debug] Initial NAS message received from UE[23]
+[2026-04-22 10:21:59.168] [ngap] [debug] Initial Context Setup Request received
+[2026-04-22 10:21:59.374] [ngap] [info] PDU session resource(s) setup for UE[23] count[1]
+[2026-04-22 10:21:59.658] [rrc] [debug] UE[24] new signal detected
+[2026-04-22 10:21:59.660] [rrc] [info] RRC Setup for UE[24]
+[2026-04-22 10:21:59.661] [ngap] [debug] Initial NAS message received from UE[24]
+[2026-04-22 10:21:59.664] [ngap] [debug] Initial Context Setup Request received
+[2026-04-22 10:21:59.880] [ngap] [info] PDU session resource(s) setup for UE[24] count[1]
+[2026-04-22 10:22:00.166] [rrc] [debug] UE[25] new signal detected
+[2026-04-22 10:22:00.398] [rrc] [info] RRC Setup for UE[25]
+[2026-04-22 10:22:00.399] [ngap] [debug] Initial NAS message received from UE[25]
+[2026-04-22 10:22:00.403] [ngap] [debug] Initial Context Setup Request received
+[2026-04-22 10:22:00.614] [ngap] [info] PDU session resource(s) setup for UE[25] count[1]

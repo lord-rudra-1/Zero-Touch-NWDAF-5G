@@ -23,11 +23,11 @@ def generate_ue_configs(count=25, output_dir="ue_configs"):
             {
                 'type': 'IPv4',
                 'apn': 'internet',
-                'slice': {'sst': 1, 'sd': '010203'}
+                'slice': {'sst': 1, 'sd': '000000'}
             }
         ],
-        'configured-nssai': [{'sst': 1, 'sd': '010203'}],
-        'default-nssai': [{'sst': 1, 'sd': '010203'}],
+        'configured-nssai': [{'sst': 1, 'sd': '000000'}],
+        'default-nssai': [{'sst': 1, 'sd': '000000'}],
         'uacAic': {'mps': False, 'mcs': False},
         'uacAcc': {
             'normalClass': 0,

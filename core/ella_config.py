@@ -20,7 +20,7 @@ DEFAULT_PLMN_MNC = "01"
 DEFAULT_PLMN_ID = f"{DEFAULT_PLMN_MCC}{DEFAULT_PLMN_MNC}"
 
 DEFAULT_SST = 1          # Slice/Service Type  (eMBB)
-DEFAULT_SD = "010203"    # Slice Differentiator (hex)
+DEFAULT_SD = "000000"    # Slice Differentiator (hex)
 
 DEFAULT_TAC = 1          # Tracking Area Code
 
@@ -32,7 +32,7 @@ DEFAULT_ELLA_HOST = os.getenv("ELLA_HOST", "127.0.0.1")
 # Allow overrides through env vars for custom deployments.
 DEFAULT_ELLA_API_PORT = int(os.getenv("ELLA_API_PORT", "5002"))
 DEFAULT_ELLA_METRICS_PORT = int(os.getenv("ELLA_METRICS_PORT", str(DEFAULT_ELLA_API_PORT)))
-DEFAULT_ELLA_SCHEME = os.getenv("ELLA_SCHEME", "https")
+DEFAULT_ELLA_SCHEME = os.getenv("ELLA_SCHEME", "http")
 DEFAULT_ELLA_VERIFY_TLS = os.getenv("ELLA_VERIFY_TLS", "false").lower() in {
     "1", "true", "yes", "on"
 }

@@ -28,7 +28,7 @@ _gnb_process: Optional[subprocess.Popen] = None
 # ---------------------------------------------------------------------------
 
 def generate_gnb_config(
-    amf_ip: str = "127.0.0.1",
+    amf_ip: str = "127.0.0.5",
     gnb_ip: str = "127.0.0.1",
     plmn: Optional[str] = None,
     tac: Optional[int] = None,
@@ -104,7 +104,6 @@ def generate_gnb_config(
         # Misc
         "ignoreStreamIds": True,
     }
-
     return gnb_cfg
 
 

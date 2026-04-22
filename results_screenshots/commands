@@ -1,0 +1,66 @@
+# Manual Run Guide & Report Sections
+
+Follow these exact steps in your own terminals to take your screenshots. 
+
+## Terminal 1: Start the Base Station (gNB)
+**What it does:** Connects our simulated cell tower to the real Ella Core AMF.
+**Command:**
+```bash
+sudo ./UERANSIM/build/nr-gnb -c ./config/gnb.yaml
+```
+*(Wait until it says "NG Setup procedure is successful", then take your first screenshot!)*
+
+**What to write in the report for this screenshot:**
+> "Figure X: Base Station (gNB) successfully established SCTP and NGAP connections to the Ella Core AMF. The successful NG Setup Request confirms that the PLMN, TAC, and security parameters match the core's expectations."
+
+---
+
+## Terminal 2: Launch the 25 Subscribers (UEs)
+**What it does:** Spawns 25 simulated mobile phones that authenticate and request internet access from Ella Core.
+**Command:**
+```bash
+sudo ./tools/launch_ues.sh
+```
+*(Wait a few seconds for them to connect. You can check the logs using `cat logs/ue_01.log`. Take a screenshot of the terminal showing the UEs launching or the successful logs!)*
+
+**What to write in the report for this screenshot:**
+> "Figure Y: Successful bulk registration of 25 UEs. The UEs successfully passed 5G-AKA authentication (resolving MAC mismatch errors) and established PDU sessions, demonstrating the core's ability to handle scaled, concurrent traffic."
+
+---
+
+## Terminal 3: Start the AI Anomaly Detector
+**What it does:** Launches the Autoencoder inference script to monitor real-time network telemetry.
+**Command:**
+```bash
+source .venv/bin/activate
+python3 main.py --detect --interval 1.0 --iterations 300
+```
+*(Leave this running and open Terminal 4. Take a screenshot once it starts detecting the attack!)*
+
+**What to write in the report for this screenshot:**
+> "Figure Z: The AI-driven NWDAF pipeline actively monitoring network traffic. The table displays the live reconstruction error. During normal operation, the error remains stable below the adaptive threshold."
+
+---
+
+## Terminal 4: Launch the Signaling Storm Attack
+**What it does:** Simulates a massive DDoS-style signaling surge against the core.
+**Command:**
+```bash
+source .venv/bin/activate
+python3 -m simulation.attack_generator --clones 25 --duration 30 --cleanup
+```
+*(As soon as you run this, quickly switch back to Terminal 3 and watch the error spike! Take a screenshot of Terminal 3 showing the "Anomalies confirmed" and "Mitigation" log).*
+
+**What to write in the report for this screenshot:**
+> "Figure W: Signaling storm simulation and subsequent zero-touch mitigation. The reconstruction error spiked significantly in response to the sudden surge in UE registration requests. The system confirmed the anomaly and successfully dispatched blocking commands to the Ella Core API."
+
+---
+
+## Final Graph Screenshots
+You will find the generated graphs (`error_over_time.png` and `error_distribution.png`) in the `results_screenshots` directory.
+
+**What to write for the Error Over Time graph:**
+> "Figure A: Reconstruction Error Over Time. The graph clearly illustrates the sudden spike in error during the 30-second signaling storm burst, successfully exceeding the rolling adaptive threshold."
+
+**What to write for the Error Distribution graph:**
+> "Figure B: Error Distribution. This highlights the clear statistical separation between normal network behavior and anomalous signaling traffic, ensuring accurate detection with minimal false positives."
